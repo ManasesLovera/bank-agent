@@ -1,5 +1,6 @@
 # Google OAuth credentials for Desktop App client
 credentials.json
+token.json
 
 # Python files
 __pycache__
