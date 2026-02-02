@@ -12,7 +12,7 @@ This agent automates the tracking of your personal finances by:
 
 ---
 
-## 🛠 Google Cloud Setup
+## Google Cloud Setup
 
 Before running the script, you must configure a Google Cloud Project to gain OAuth access to your Gmail.
 
@@ -37,7 +37,7 @@ Before running the script, you must configure a Google Cloud Project to gain OAu
 
 ---
 
-## 🚀 Installation & Usage
+## Installation & Usage
 
 ### Option 1: Using `uv` (Recommended)
 This project uses [uv](https://github.com/astral-sh/uv) for fast, reliable dependency management.
@@ -66,14 +66,14 @@ python main.py
 
 ---
 
-## 🔑 Authentication
+## Authentication
 The first time you run the script:
 
 1. A browser window will open asking you to sign in to your Google Account.
 2. You will see a "Google hasn't verified this app" warning. Click Advanced > Go to [App Name] (unsafe).
 3. Once authorized, a token.json file will be created in your folder. This file stores your login session so you don't have to log in manually again.
 
-## 📂 Project Structure
+## Project Structure
 
 ```plaintext
 bank-agent/

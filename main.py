@@ -1,8 +1,8 @@
-from quickstart import print_labels
+from gmailapi import get_bank_notifications
 
 def main():
     print("Hello from bank-agent!")
-    print_labels()
+    get_bank_notifications()
 
 
 if __name__ == "__main__":
