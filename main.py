@@ -1,8 +1,8 @@
-from script import run
+from quickstart import print_labels
 
 def main():
-    run()
     print("Hello from bank-agent!")
+    print_labels()
 
 
 if __name__ == "__main__":
