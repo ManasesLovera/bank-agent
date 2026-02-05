@@ -49,6 +49,12 @@ def get_bank_notifications():
 
     try:
         service = build("gmail", "v1", credentials=creds)
+        
+        # Check if BANKS dictionary is configured
+        if not BANKS:
+            print("No banks configured. Please add bank email addresses to the BANKS dictionary.")
+            return
+        
         # Build query to filter by specific bank email addresses
         email_filters = " OR ".join([f"from:{email}" for email in BANKS.values()])
         query = f"({email_filters})"
