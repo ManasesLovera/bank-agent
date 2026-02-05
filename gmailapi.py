@@ -18,6 +18,12 @@ BANKS = {
     "Lafise": "notificacioneslafisedo@lafise.com.do"
 }
 
+# Optional date range filters for narrowing transaction queries
+# Format: YYYY/MM/DD (e.g., "2024/01/01")
+# Set to None to disable date filtering
+DATE_AFTER = None   # Fetch emails after this date (inclusive)
+DATE_BEFORE = None  # Fetch emails before this date (inclusive)
+
 def get_creds():
     creds = None
     # 1. Try loading existing token
@@ -58,6 +64,13 @@ def get_bank_notifications():
         # Build query to filter by specific bank email addresses
         email_filters = " OR ".join([f"from:{email}" for email in BANKS.values()])
         query = f"({email_filters})"
+        
+        # Add optional date range filters
+        if DATE_AFTER:
+            query += f" after:{DATE_AFTER}"
+        if DATE_BEFORE:
+            query += f" before:{DATE_BEFORE}"
+        
         results = service.users().messages().list(userId='me', q=query, maxResults=100).execute()
         messages = results.get('messages', [])
 

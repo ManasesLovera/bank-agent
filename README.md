@@ -87,6 +87,24 @@ BANKS = {
 
 This approach ensures that only emails from these specific addresses are processed, avoiding false positives from other notification senders.
 
+## Filtering by Date Range
+
+You can optionally filter emails by date range using the `DATE_AFTER` and `DATE_BEFORE` constants in `gmailapi.py`:
+
+```python
+# Optional date range filters for narrowing transaction queries
+# Format: YYYY/MM/DD (e.g., "2024/01/01")
+# Set to None to disable date filtering
+DATE_AFTER = "2024/01/01"   # Fetch emails after this date (inclusive)
+DATE_BEFORE = "2024/12/31"  # Fetch emails before this date (inclusive)
+```
+
+**Examples:**
+- To get all emails from 2024: Set `DATE_AFTER = "2024/01/01"` and `DATE_BEFORE = "2024/12/31"`
+- To get emails from the last month: Set `DATE_AFTER = "2024/11/01"` and `DATE_BEFORE = "2024/11/30"`
+- To get all emails after a specific date: Set `DATE_AFTER = "2024/06/01"` and `DATE_BEFORE = None`
+- To disable date filtering: Set both `DATE_AFTER = None` and `DATE_BEFORE = None` (default)
+
 ## Project Structure
 
 ```plaintext
