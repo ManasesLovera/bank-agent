@@ -9,6 +9,15 @@ from googleapiclient.errors import HttpError
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
+# Bank-specific email addresses for filtering transaction notifications
+BANKS = {
+    "Banco Popular": "notificaciones@popularenlinea.com",
+    "Banesco": "notificaciones@banesco.com.do",
+    "AZUL": "notificaciones@azul.com.do",
+    "Qik": "notificaciones@qik.do",
+    "Lafise": "notificacioneslafisedo@lafise.com.do"
+}
+
 def get_creds():
     creds = None
     # 1. Try loading existing token
@@ -40,7 +49,15 @@ def get_bank_notifications():
 
     try:
         service = build("gmail", "v1", credentials=creds)
-        query = "from:notificaciones*" 
+        
+        # Check if BANKS dictionary is configured
+        if not BANKS:
+            print("No banks configured. Please add bank email addresses to the BANKS dictionary.")
+            return
+        
+        # Build query to filter by specific bank email addresses
+        email_filters = " OR ".join([f"from:{email}" for email in BANKS.values()])
+        query = f"({email_filters})"
         results = service.users().messages().list(userId='me', q=query, maxResults=100).execute()
         messages = results.get('messages', [])
 
