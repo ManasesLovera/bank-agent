@@ -5,7 +5,7 @@ An intelligent financial assistant that "listens" to bank notification emails fr
 ## Project Overview
 
 This agent automates the tracking of your personal finances by:
-1. Monitoring specific bank notification senders (e.g., `notificaciones@...`).
+1. Monitoring emails from specific bank notification addresses (see `BANKS` dictionary in `gmailapi.py` for supported banks).
 2. Fetching recent transaction emails via the **Gmail API**.
 3. Processing the Spanish content with **Gemini 1.5 Flash** to output clean JSON.
 4. Classifying the transaction and extracting amounts, merchants, and wallets.
@@ -72,6 +72,22 @@ The first time you run the script:
 1. A browser window will open asking you to sign in to your Google Account.
 2. You will see a "Google hasn't verified this app" warning. Click Advanced > Go to [App Name] (unsafe).
 3. Once authorized, a token.json file will be created in your folder. This file stores your login session so you don't have to log in manually again.
+
+## Customizing Bank Filters
+
+The application monitors emails from specific bank notification addresses. To add or remove banks, edit the `BANKS` dictionary in `gmailapi.py`:
+
+```python
+BANKS = {
+    "Banco Popular": "notificaciones@popularenlinea.com",
+    "Banesco": "notificaciones@banesco.com.do",
+    "AZUL": "notificaciones@azul.com.do",
+    "Qik": "notificaciones@qik.do",
+    "Lafise": "notificacioneslafisedo@lafise.com.do"
+}
+```
+
+This approach ensures that only emails from these specific addresses are processed, avoiding false positives from other notification senders.
 
 ## Project Structure
 
