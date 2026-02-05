@@ -13,7 +13,7 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 BANKS = {
     "Banco Popular": "notificaciones@popularenlinea.com",
     "Banesco": "notificaciones@banesco.com.do",
-    "AZUL": "notificaciones@azul.com.do",  # This is the platform UAPA where I study uses for payments
+    "AZUL": "notificaciones@azul.com.do",
     "Qik": "notificaciones@qik.do",
     "Lafise": "notificacioneslafisedo@lafise.com.do"
 }

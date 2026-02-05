@@ -79,11 +79,9 @@ The application monitors emails from specific bank notification addresses. To ad
 
 ```python
 BANKS = {
-    "Banco Popular": "notificaciones@popularenlinea.com",
-    "Banesco": "notificaciones@banesco.com.do",
-    "AZUL": "notificaciones@azul.com.do",
-    "Qik": "notificaciones@qik.do",
-    "Lafise": "notificacioneslafisedo@lafise.com.do"
+    "Bank Name 1": "notifications@bank1.com",
+    "Bank Name 2": "notifications@bank2.com",
+    # Add more banks as needed
 }
 ```
 
