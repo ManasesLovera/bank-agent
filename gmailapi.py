@@ -71,7 +71,7 @@ def get_bank_notifications():
         if DATE_BEFORE:
             query += f" before:{DATE_BEFORE}"
         
-        results = service.users().messages().list(userId='me', q=query, maxResults=100).execute()
+        results = service.users().messages().list(userId='me', q=query, maxResults=5).execute()
         messages = results.get('messages', [])
 
         if not messages:

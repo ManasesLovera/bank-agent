@@ -5,6 +5,7 @@ An intelligent financial assistant that "listens" to bank notification emails fr
 ## Project Overview
 
 This agent automates the tracking of your personal finances by:
+
 1. Monitoring emails from specific bank notification addresses (see `BANKS` dictionary in `gmailapi.py` for supported banks).
 2. Fetching recent transaction emails via the **Gmail API**.
 3. Processing the Spanish content with **Gemini 1.5 Flash** to output clean JSON.
@@ -17,11 +18,13 @@ This agent automates the tracking of your personal finances by:
 Before running the script, you must configure a Google Cloud Project to gain OAuth access to your Gmail.
 
 ### 1. Create a Google Cloud Project
+
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
 2. Create a new project named `bank-agent`.
 3. Search for **Gmail API** and click **Enable**.
 
 ### 2. Configure OAuth Consent Screen
+
 1. Go to **APIs & Services > OAuth consent screen**.
 2. Select **User Type: External** and click **Create**.
 3. Fill in the **App Name** (e.g., "Bank Agent") and your **User support email**.
@@ -29,6 +32,7 @@ Before running the script, you must configure a Google Cloud Project to gain OAu
    > **Note:** Without this step, you will receive a "403 Access Denied" error during login.
 
 ### 3. Create Credentials
+
 1. Go to **APIs & Services > Credentials**.
 2. Click **Create Credentials > OAuth client ID**.
 3. Select **Application type: Desktop app**.
@@ -40,6 +44,7 @@ Before running the script, you must configure a Google Cloud Project to gain OAu
 ## Installation & Usage
 
 ### Option 1: Using `uv` (Recommended)
+
 This project uses [uv](https://github.com/astral-sh/uv) for fast, reliable dependency management.
 
 ```bash
@@ -67,6 +72,7 @@ python main.py
 ---
 
 ## Authentication
+
 The first time you run the script:
 
 1. A browser window will open asking you to sign in to your Google Account.
@@ -100,6 +106,7 @@ DATE_BEFORE = "2024/12/31"  # Fetch emails before this date (inclusive)
 ```
 
 **Examples:**
+
 - To get all emails from 2024: Set `DATE_AFTER = "2024/01/01"` and `DATE_BEFORE = "2024/12/31"`
 - To get emails from the last month: Set `DATE_AFTER = "2024/11/01"` and `DATE_BEFORE = "2024/11/30"`
 - To get all emails after a specific date: Set `DATE_AFTER = "2024/06/01"` and `DATE_BEFORE = None`
