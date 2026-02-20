@@ -3,9 +3,13 @@ name = "bank-agent"
 version = "0.1.0"
 description = "An intelligent financial assistant that verifies bank notification emails from your Gmail inbox and extracts structured transaction data (expenses, payroll, withdrawals) using LLMs."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "google-api-python-client>=2.188.0",
     "google-auth-httplib2>=0.3.0",
     "google-auth-oauthlib>=1.2.4",
+    "google-genai>=1.64.0",
+    "pydantic",
+    "pydantic-settings",
+    "sqlalchemy>=2.0.46",
 ]

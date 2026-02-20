@@ -8,3 +8,6 @@ notifications.json
 # Python files
 __pycache__
 .venv
+
+# Environment variables
+.env
