@@ -1,4 +1,4 @@
-from gmailapi import get_bank_notifications
+from gmail import get_bank_notifications
 
 def main():
     print("Hello from bank-agent!")

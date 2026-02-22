@@ -28,7 +28,7 @@ Before running the script, you must configure a Google Cloud Project to gain OAu
 1. Go to **APIs & Services > OAuth consent screen**.
 2. Select **User Type: External** and click **Create**.
 3. Fill in the **App Name** (e.g., "Bank Agent") and your **User support email**.
-4. In the **Test users** section, click **Add Users** and enter your own Gmail address. 
+4. In the **Test users** section, click **Add Users** and enter your own Gmail address.
    > **Note:** Without this step, you will receive a "403 Access Denied" error during login.
 
 ### 3. Create Credentials
@@ -43,45 +43,43 @@ Before running the script, you must configure a Google Cloud Project to gain OAu
 
 ## Installation & Usage
 
-### Option 1: Using `uv` (Recommended)
+### 1. Initialize Environment
 
 This project uses [uv](https://github.com/astral-sh/uv) for fast, reliable dependency management.
 
 ```bash
 # Initialize the environment and install dependencies
 uv sync
-
-# Run the project
-uv run main.py
 ```
 
-### Option 2: Using Plain Python & Pip
+### 2. Authentication Setup
+
+Before running the agent, you need to generate a `token.json` file for your Gmail account.
+
+1. **Place Credentials:** Download your `credentials.json` from the Google Cloud Console and place it in the project root folder.
+2. **Run Auth Script:** Execute the authentication script:
+
+    ```bash
+    python auth.py
+    ```
+
+3. **Verify Token:** This script will open your browser for OAuth2 authorization. Once completed, a `token.json` file will be generated in your root folder.
+
+### 3. Run the Project
+
+Once authenticated, you can run the main application logic:
 
 ```bash
-# Create a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib google-genai pydantic
-
-# Run the project
-python main.py
+uv run main.py
 ```
 
 ---
 
-## Authentication
+## Configuration
 
-The first time you run the script:
+### Customizing Bank Filters
 
-1. A browser window will open asking you to sign in to your Google Account.
-2. You will see a "Google hasn't verified this app" warning. Click Advanced > Go to [App Name] (unsafe).
-3. Once authorized, a token.json file will be created in your folder. This file stores your login session so you don't have to log in manually again.
-
-## Customizing Bank Filters
-
-The application monitors emails from specific bank notification addresses. To add or remove banks, edit the `BANKS` dictionary in `gmailapi.py`:
+The application monitors emails from specific bank notification addresses. To add or remove banks, edit the `BANKS` dictionary in `constants.py`:
 
 ```python
 BANKS = {
@@ -91,34 +89,36 @@ BANKS = {
 }
 ```
 
-This approach ensures that only emails from these specific addresses are processed, avoiding false positives from other notification senders.
+### Filtering by Date Range
 
-## Filtering by Date Range
-
-You can optionally filter emails by date range using the `DATE_AFTER` and `DATE_BEFORE` constants in `gmailapi.py`:
+You can optionally filter emails by date range using the `date_after` and `date_before` variables in `gmail.py`:
 
 ```python
-# Optional date range filters for narrowing transaction queries
 # Format: YYYY/MM/DD (e.g., "2024/01/01")
-# Set to None to disable date filtering
-DATE_AFTER = "2024/01/01"   # Fetch emails after this date (inclusive)
-DATE_BEFORE = "2024/12/31"  # Fetch emails before this date (inclusive)
+date_after = "2024/01/01"   # Fetch emails after this date (inclusive)
+date_before = "2024/12/31"  # Fetch emails before this date (inclusive)
 ```
 
-**Examples:**
-
-- To get all emails from 2024: Set `DATE_AFTER = "2024/01/01"` and `DATE_BEFORE = "2024/12/31"`
-- To get emails from the last month: Set `DATE_AFTER = "2024/11/01"` and `DATE_BEFORE = "2024/11/30"`
-- To get all emails after a specific date: Set `DATE_AFTER = "2024/06/01"` and `DATE_BEFORE = None`
-- To disable date filtering: Set both `DATE_AFTER = None` and `DATE_BEFORE = None` (default)
+---
 
 ## Project Structure
 
 ```plaintext
 bank-agent/
+├── auth.py            # OAuth2 flow for initial authentication
+├── constants.py       # Configuration for Scopes and Bank email addresses
 ├── credentials.json   # OAuth App ID (From Google Console)
-├── token.json         # Your User Session (Generated after first login)
-├── main.py            # Main application logic
+├── gmail.py           # Logic for interacting with the Gmail API
+├── main.py            # Main application entry point
 ├── pyproject.toml     # uv configuration & dependencies
-└── README.md          # This file
-``` 
+├── README.md          # Project documentation
+├── services/
+│   └── genai.py       # LLM processing logic (In Progress)
+└── token.json         # Your User Session (Generated after auth.py)
+```
+
+---
+
+## GenAI Processing (In Progress)
+
+The integration of **Gemini 1.5 Flash** for extracting structured transaction data (amounts, merchants, wallets) from the email content is currently under development.

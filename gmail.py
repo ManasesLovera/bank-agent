@@ -1,28 +1,16 @@
 import os.path
 
-from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from constants import SCOPES, BANKS
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
-
-# Bank-specific email addresses for filtering transaction notifications
-BANKS = {
-    "Banco Popular": "notificaciones@popularenlinea.com",
-    "Banesco": "notificaciones@banesco.com.do",
-    "AZUL": "notificaciones@azul.com.do",
-    "Qik": "notificaciones@qik.do",
-    "Lafise": "notificacioneslafisedo@lafise.com.do"
-}
 
 # Optional date range filters for narrowing transaction queries
 # Format: YYYY/MM/DD (e.g., "2024/01/01")
 # Set to None to disable date filtering
-DATE_AFTER = None   # Fetch emails after this date (inclusive)
-DATE_BEFORE = None  # Fetch emails before this date (inclusive)
+date_after = None   # Fetch emails after this date (inclusive)
+date_before = None  # Fetch emails before this date (inclusive)
 
 def get_creds():
     creds = None
@@ -30,27 +18,34 @@ def get_creds():
     if os.path.exists("token.json"):
         creds = Credentials.from_authorized_user_file("token.json", SCOPES)
 
-    # 2. If token is missing or invalid, do the OAuth flow
+    # 2. If token is missing or invalid, try to refresh it
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+        if creds and creds.refresh_token:
+            try:
+                from google.auth.transport.requests import Request
+                creds.refresh(Request())
+            except Exception as e:
+                print(f"Error refreshing token: {e}")
+                print("\nToken is invalid or expired. Please run 'python auth.py' to re-authenticate.")
+                return None
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                "credentials.json", SCOPES
-            )
-            creds = flow.run_local_server(port=0)
+            print("\nAuthentication token not found or invalid.")
+            print("Please run 'python auth.py' to authenticate for the first time.")
+            return None
         
-        # Save the credentials for next time
+        # Save the refreshed credentials
         with open("token.json", "w") as token:
             token.write(creds.to_json())
 
-    # 3. CRITICAL: This must be at the top level of the function!
     return creds
-  
+
 import json
 
 def get_bank_notifications():
     creds = get_creds()
+    if not creds:
+        return
+        
     notifications_data = [] # List to store our dictionaries
 
     try:
@@ -66,10 +61,10 @@ def get_bank_notifications():
         query = f"({email_filters})"
         
         # Add optional date range filters
-        if DATE_AFTER:
-            query += f" after:{DATE_AFTER}"
-        if DATE_BEFORE:
-            query += f" before:{DATE_BEFORE}"
+        if date_after:
+            query += f" after:{date_after}"
+        if date_before:
+            query += f" before:{date_before}"
         
         results = service.users().messages().list(userId='me', q=query, maxResults=5).execute()
         messages = results.get('messages', [])
