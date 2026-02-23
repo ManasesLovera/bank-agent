@@ -56,11 +56,19 @@ uv sync
 
 Before running the agent, you need to generate a `token.json` file for your Gmail account.
 
-1. **Place Credentials:** Download your `credentials.json` from the Google Cloud Console and place it in the project root folder.
-2. **Run Auth Script:** Execute the authentication script:
+1. **Place Credentials:** Download your credentials from the Google Cloud Console and place them in the project root folder.
+
+    * For **Desktop Application** credentials, rename the file to `credentials-desktop.json`.
+    * For **Web Application** credentials, rename the file to `credentials-web.json`.
+
+2. **Run Auth Script:** Execute the authentication script. By default, it looks for `credentials-desktop.json`. To use the web version, set the `APP_ENV` environment variable:
 
     ```bash
-    python auth.py
+        # For Desktop (Default)
+        python auth.py
+
+        # For Web
+        APP_ENV=web python auth.py
     ```
 
 3. **Verify Token:** This script will open your browser for OAuth2 authorization. Once completed, a `token.json` file will be generated in your root folder.
@@ -105,16 +113,17 @@ date_before = "2024/12/31"  # Fetch emails before this date (inclusive)
 
 ```plaintext
 bank-agent/
-├── auth.py            # OAuth2 flow for initial authentication
-├── constants.py       # Configuration for Scopes and Bank email addresses
-├── credentials.json   # OAuth App ID (From Google Console)
-├── gmail.py           # Logic for interacting with the Gmail API
-├── main.py            # Main application entry point
-├── pyproject.toml     # uv configuration & dependencies
-├── README.md          # Project documentation
+├── auth.py                  # OAuth2 flow for initial authentication
+├── constants.py             # Configuration for Scopes and Bank email addresses
+├── credentials-desktop.json # OAuth App ID for Desktop (From Google Console)
+├── credentials-web.json     # OAuth App ID for Web (From Google Console)
+├── gmail.py                 # Logic for interacting with the Gmail API
+├── main.py                  # Main application entry point
+├── pyproject.toml           # uv configuration & dependencies
+├── README.md                # Project documentation
 ├── services/
-│   └── genai.py       # LLM processing logic (In Progress)
-└── token.json         # Your User Session (Generated after auth.py)
+│   └── genai.py             # LLM processing logic (In Progress)
+└── token.json               # Your User Session (Generated after auth.py)
 ```
 
 ---

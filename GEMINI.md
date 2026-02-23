@@ -66,3 +66,13 @@ The first time you run the script, a browser window will open for Google account
   * `token.json`: User session token (generated after first login).
   * `pyproject.toml`: Project configuration and dependencies.
   * `README.md`: Project documentation.
+
+## Markdown Standards
+
+When adjusting or creating `.md` files, follow these rules:
+
+* **Rule:** `MD030` (list-marker-space)
+* **Description:** Enforce a single space after list markers (e.g., `*`, `-`, `1.`).
+* **Expected:** 1 space.
+* **Actual Violation Example:** `1.  Item` (2 spaces).
+* **Action:** Always use exactly one space after list markers.
