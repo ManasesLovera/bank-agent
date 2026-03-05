@@ -53,7 +53,8 @@ def get_genai_client() -> genai.Client:
     """
     if not settings.gemini_api_key:
         raise ValueError(
-            "GEMINI_API_KEY is not set. Please configure it in your .env file."
+            "GEMINI_API_KEY is not set. "
+            "Set GEMINI_API_KEY=your_key_here in your .env file."
         )
     return genai.Client(api_key=settings.gemini_api_key)
 

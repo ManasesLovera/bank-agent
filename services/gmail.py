@@ -20,6 +20,11 @@ from constants import SCOPES, BANKS
 from services.genai import extract_transaction
 
 
+# Maximum number of email notifications to fetch per run.
+# Adjust this value to control how many notifications are processed.
+MAX_RESULTS = 5
+
+
 # Optional date range filters for narrowing transaction queries.
 # Format: YYYY/MM/DD (e.g., "2024/01/01")
 # Set to None to disable date filtering.
@@ -147,7 +152,7 @@ def get_bank_notifications() -> list[dict]:
         # Build and execute the search query
         query = _build_query()
         results = service.users().messages().list(
-            userId="me", q=query, maxResults=5
+            userId="me", q=query, maxResults=MAX_RESULTS
         ).execute()
         messages = results.get("messages", [])
 
