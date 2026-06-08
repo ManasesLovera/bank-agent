@@ -16,7 +16,7 @@ from models import TransactionResponse
 
 
 # Gemini model identifier for transaction extraction
-GEMINI_MODEL = "gemini-2.0-flash-lite"
+GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 # System prompt that instructs the model on how to process bank notifications
 SYSTEM_PROMPT = """You are a financial data extraction assistant.

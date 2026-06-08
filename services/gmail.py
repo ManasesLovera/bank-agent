@@ -300,7 +300,7 @@ def get_bank_notifications() -> list[dict]:
             notification_content = parsed_text if parsed_text else snippet
             result = extract_transaction(notification_content)
             if result:
-                entry["extracted_data"] = result.model_dump()
+                entry["extracted_data"] = result.model_dump(exclude_none=True)
                 print(f"    -> Type: {result.transaction_type}")
             else:
                 print("    -> GenAI extraction failed, storing raw data only.")
