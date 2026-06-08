@@ -1,4 +1,4 @@
-from gmail import get_bank_notifications
+from services.gmail import get_bank_notifications
 
 def main():
     print("Hello from bank-agent!")
